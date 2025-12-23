@@ -8,7 +8,7 @@ using SMS.API.Models;
 namespace SMS.API.Controllers
 {
     [ApiController]
-    [Route("api/schooladmin/classes")]
+    [Route("api/classes")]
     [Authorize(Roles = "SchoolAdmin")]
     public class ClassController : ControllerBase
     {

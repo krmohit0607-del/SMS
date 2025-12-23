@@ -11,9 +11,18 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
+var port = Environment.GetEnvironmentVariable("PORT");
 
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+if (string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls("http://localhost:5000");
+}
+else
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+//var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+//builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services
 builder.Services.AddControllers();

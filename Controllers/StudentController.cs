@@ -7,7 +7,7 @@ using SMS.API.Models;
 
 [Authorize(Roles = "SchoolAdmin")]
 [ApiController]
-[Route("api/schooladmin/students")]
+[Route("api/students")]
 public class StudentController : ControllerBase
 {
     private readonly ApplicationDbContext _context;
