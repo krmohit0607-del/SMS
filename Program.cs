@@ -112,32 +112,76 @@ builder.Services.AddCors(options =>
                 .AllowCredentials();
         });
 });
-var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    //DbInitializer.Seed(db);
-}
-// Configure pipeline
-//if (app.Environment.IsDevelopment())
+//var app = builder.Build();
+//using (var scope = app.Services.CreateScope())
 //{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
+//    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+//    //DbInitializer.Seed(db);
 //}
+//// Configure pipeline
+////if (app.Environment.IsDevelopment())
+////{
+////    app.UseSwagger();
+////    app.UseSwaggerUI();
+////}
+//app.UseSwagger();
+//app.UseSwaggerUI();
+//if (!app.Environment.IsProduction())
+//{
+//    app.UseHttpsRedirection();
+//}
+
+////app.UseHttpsRedirection();
+//app.UseRouting();
+//app.UseCors("AllowFrontend");
+
+//app.UseAuthentication();
+//app.UseMiddleware<SubscriptionValidationMiddleware>();
+//app.UseAuthorization();
+//app.MapGet("/", () => "SMS API is running 🚀");
+//app.MapControllers();
+//app.Run();
+
+var app = builder.Build();
+
 app.UseSwagger();
 app.UseSwaggerUI();
+
+/* Render handles HTTPS */
 if (!app.Environment.IsProduction())
 {
     app.UseHttpsRedirection();
 }
 
-//app.UseHttpsRedirection();
-app.UseRouting();
+/* 🔴 CORS MUST COME FIRST */
 app.UseCors("AllowFrontend");
 
+/* 🔴 OPTIONS short-circuit */
+app.Use(async (context, next) =>
+{
+    if (context.Request.Method == HttpMethods.Options)
+    {
+        context.Response.StatusCode = StatusCodes.Status204NoContent;
+        return;
+    }
+    await next();
+});
+
+app.UseRouting();
+
 app.UseAuthentication();
-app.UseMiddleware<SubscriptionValidationMiddleware>();
+
+/* ❗ Skip subscription middleware for auth */
+app.UseWhen(
+    ctx => !ctx.Request.Path.StartsWithSegments("/api/auth"),
+    appBuilder =>
+    {
+        appBuilder.UseMiddleware<SubscriptionValidationMiddleware>();
+    }
+);
+
 app.UseAuthorization();
-app.MapGet("/", () => "SMS API is running 🚀");
+
 app.MapControllers();
 app.Run();
+
