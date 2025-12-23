@@ -10,11 +10,10 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
-    options.ListenAnyIP(int.Parse(port));
-});
+
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // Add services
 builder.Services.AddControllers();
@@ -106,11 +105,13 @@ using (var scope = app.Services.CreateScope())
     //DbInitializer.Seed(db);
 }
 // Configure pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors("AllowFrontend");
@@ -118,6 +119,6 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseMiddleware<SubscriptionValidationMiddleware>();
 app.UseAuthorization();
-
+app.MapGet("/", () => "SMS API is running 🚀");
 app.MapControllers();
 app.Run();
