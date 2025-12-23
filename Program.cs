@@ -157,15 +157,15 @@ app.UseSwaggerUI();
 app.UseCors("AllowFrontend");
 
 /* 🔴 OPTIONS short-circuit */
-app.Use(async (context, next) =>
-{
-    if (context.Request.Method == HttpMethods.Options)
-    {
-        context.Response.StatusCode = StatusCodes.Status204NoContent;
-        return;
-    }
-    await next();
-});
+//app.Use(async (context, next) =>
+//{
+//    if (context.Request.Method == HttpMethods.Options)
+//    {
+//        context.Response.StatusCode = StatusCodes.Status204NoContent;
+//        return;
+//    }
+//    await next();
+//});
 
 app.UseRouting();
 
@@ -183,5 +183,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/", () => "SMS API is running 🚀");
 app.Run();
 
