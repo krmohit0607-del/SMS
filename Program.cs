@@ -109,7 +109,7 @@ builder.Services.AddCors(options =>
             )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowCredentials();
+                //.AllowCredentials();
         });
 });
 //var app = builder.Build();
@@ -168,7 +168,7 @@ app.UseCors("AllowFrontend");
 //});
 
 app.UseRouting();
-app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
+//app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
 app.UseAuthentication();
 
 /* ❗ Skip subscription middleware for auth */
