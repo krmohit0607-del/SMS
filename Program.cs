@@ -104,7 +104,8 @@ builder.Services.AddCors(options =>
                .WithOrigins(
                 "http://localhost:5173",   // Vite default
                 "http://localhost:3000",   // React (CRA)
-                "https://sms-frontend-green.vercel.app" // Production
+                "https://sms-frontend-green.vercel.app", // Production
+                "https://sms-frontend-6qaanmzoe-mohits-projects-f9e64c55.vercel.app"
             )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
