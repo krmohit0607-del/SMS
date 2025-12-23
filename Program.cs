@@ -168,7 +168,7 @@ app.UseCors("AllowFrontend");
 //});
 
 app.UseRouting();
-
+app.MapMethods("{*path}", new[] { "OPTIONS" }, () => Results.Ok());
 app.UseAuthentication();
 
 /* ❗ Skip subscription middleware for auth */
@@ -181,6 +181,7 @@ app.UseAuthentication();
 //);
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 app.MapGet("/", () => "SMS API is running 🚀");
