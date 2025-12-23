@@ -102,6 +102,8 @@ builder.Services.AddCors(options =>
         {
             policy
                 .WithOrigins("http://localhost:5173")
+                .WithOrigins("https://sms-frontend-green.vercel.app")
+
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
