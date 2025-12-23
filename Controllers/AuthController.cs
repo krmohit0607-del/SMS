@@ -25,46 +25,56 @@ namespace SMS.API.Controllers
         [HttpPost("login")]
         public IActionResult Login(LoginRequestDto request)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Email == request.Email);
-            if (user == null)
-                return Unauthorized("Invalid credentials");
+            
+            try
+            {
+                var user = _context.Users.FirstOrDefault(x => x.Email == request.Email);
+                if (user == null)
+                    return Unauthorized("Invalid credentials");
 
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
-            if (!isPasswordValid)
-                return Unauthorized("Invalid credentials");
+                bool isPasswordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash);
+                if (!isPasswordValid)
+                    return Unauthorized("Invalid credentials");
 
-            var claims = new List<Claim>
+                var claims = new List<Claim>
 {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
     new(ClaimTypes.Role, user.Role.ToString()),
 };
 
-            // IMPORTANT: only for SchoolAdmin
-            if (user.SchoolId != null)
-            {
-                claims.Add(new Claim("SchoolId", user.SchoolId.ToString()!));
+                // IMPORTANT: only for SchoolAdmin
+                if (user.SchoolId != null)
+                {
+                    claims.Add(new Claim("SchoolId", user.SchoolId.ToString()!));
+                }
+
+                var key = new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
+                );
+
+                var token = new JwtSecurityToken(
+                    issuer: _configuration["Jwt:Issuer"],
+                    audience: _configuration["Jwt:Audience"],
+                    claims: claims,
+                    expires: DateTime.UtcNow.AddMinutes(
+                        int.Parse(_configuration["Jwt:ExpireMinutes"])
+                    ),
+                    signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                );
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    role = user.Role.ToString()
+                });// existing login logic
             }
-
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
-            );
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(
-                    int.Parse(_configuration["Jwt:ExpireMinutes"])
-                ),
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-            );
-
-            return Ok(new
+            catch (Exception ex)
             {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                role = user.Role.ToString()
-            });
+                Console.WriteLine("LOGIN ERROR:");
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
         }
 
         [Authorize]
