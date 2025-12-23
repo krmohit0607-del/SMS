@@ -108,7 +108,7 @@ builder.Services.AddCors(options =>
                 "https://sms-frontend-6qaanmzoe-mohits-projects-f9e64c55.vercel.app"
             )
                 .AllowAnyHeader()
-                .AllowAnyMethod()
+                .AllowAnyMethod();
                 //.AllowCredentials();
         });
 });
