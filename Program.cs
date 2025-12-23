@@ -11,16 +11,16 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
-var port = Environment.GetEnvironmentVariable("PORT");
+//var port = Environment.GetEnvironmentVariable("PORT");
 
-if (string.IsNullOrEmpty(port))
-{
-    builder.WebHost.UseUrls("http://localhost:5000");
-}
-else
-{
-    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-}
+//if (string.IsNullOrEmpty(port))
+//{
+//    builder.WebHost.UseUrls("http://localhost:5000");
+//}
+//else
+//{
+//    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+//}
 //var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 //builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
@@ -148,10 +148,10 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 /* Render handles HTTPS */
-if (!app.Environment.IsProduction())
-{
-    app.UseHttpsRedirection();
-}
+//if (!app.Environment.IsProduction())
+//{
+//    app.UseHttpsRedirection();
+//}
 
 /* 🔴 CORS MUST COME FIRST */
 app.UseCors("AllowFrontend");
@@ -172,13 +172,13 @@ app.UseRouting();
 app.UseAuthentication();
 
 /* ❗ Skip subscription middleware for auth */
-app.UseWhen(
-    ctx => !ctx.Request.Path.StartsWithSegments("/api/auth"),
-    appBuilder =>
-    {
-        appBuilder.UseMiddleware<SubscriptionValidationMiddleware>();
-    }
-);
+//app.UseWhen(
+//    ctx => !ctx.Request.Path.StartsWithSegments("/api/auth"),
+//    appBuilder =>
+//    {
+//        appBuilder.UseMiddleware<SubscriptionValidationMiddleware>();
+//    }
+//);
 
 app.UseAuthorization();
 
