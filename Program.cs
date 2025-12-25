@@ -66,7 +66,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(
-        builder.Configuration.GetConnectionString("SupabaseDb") ?? throw new InvalidOperationException("Connection string missing")
+        builder.Configuration.GetConnectionString("NeonDb") ?? throw new InvalidOperationException("Connection string missing")
     )
 );
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>

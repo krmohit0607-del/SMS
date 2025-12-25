@@ -12,7 +12,7 @@ using SMS.API.Data;
 namespace SMS.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251223102342_InitialCreate")]
+    [Migration("20251225110658_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
