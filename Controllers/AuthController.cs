@@ -71,22 +71,18 @@ namespace SMS.API.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine("LOGIN ERROR:");
-                Console.WriteLine(ex.ToString());
-                throw;
+                return StatusCode(500, new
+                {
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
             }
         }
 
-        [Authorize]
-        [HttpGet("debug")]
-        public IActionResult Debug()
+        [HttpGet("db-test")]
+        public IActionResult DbTest()
         {
-            return Ok(new
-            {
-                User.Identity.IsAuthenticated,
-                Roles = User.FindAll(ClaimTypes.Role).Select(x => x.Value),
-                Claims = User.Claims.Select(c => new { c.Type, c.Value })
-            });
+            return Ok(_context.Users.Count());
         }
     }
 }
