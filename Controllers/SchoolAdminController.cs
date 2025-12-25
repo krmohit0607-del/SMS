@@ -158,7 +158,10 @@ namespace SMS.API.Controllers
                 {
                     x.Id,
                     x.FullName,
-                    x.Email
+                    x.Email,
+                    x.ClassId,
+                    x.Class,
+                    x.RollNumber
                 })
                 .ToListAsync();
 
