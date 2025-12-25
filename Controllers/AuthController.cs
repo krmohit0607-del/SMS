@@ -82,7 +82,29 @@ namespace SMS.API.Controllers
         [HttpGet("db-test")]
         public IActionResult DbTest()
         {
-            return Ok(_context.Users.Count());
+            try
+            {
+                var canConnect = _context.Database.CanConnect();
+
+                var usersCount = _context.Users.Count();
+
+                return Ok(new
+                {
+                    canConnect,
+                    usersCount,
+                    provider = _context.Database.ProviderName
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    inner = ex.InnerException?.Message,
+                    stack = ex.StackTrace
+                });
+            }
         }
+
     }
 }
