@@ -196,8 +196,8 @@ namespace SMS.API.Controllers
             var totalTeachers = await _context.Users
                 .CountAsync(x => x.Role == UserRole.Teacher && x.SchoolId == schoolId);
 
-            var totalStudents = await _context.Users
-                .CountAsync(x => x.Role == UserRole.Student && x.SchoolId == schoolId);
+            var totalStudents = await _context.Students
+                .CountAsync(x => x.SchoolId == schoolId);
 
             var totalClasses = await _context.Classes
                 .CountAsync(x => x.SchoolId == schoolId && x.IsActive);
