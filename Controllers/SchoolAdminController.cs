@@ -152,8 +152,8 @@ namespace SMS.API.Controllers
         {
             var schoolId = int.Parse(User.FindFirst("SchoolId")!.Value);
 
-            var students = await _context.Users
-                .Where(x => x.Role == UserRole.Student && x.SchoolId == schoolId)
+            var students = await _context.Students
+                .Where(x => x.SchoolId == schoolId)
                 .Select(x => new
                 {
                     x.Id,
