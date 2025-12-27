@@ -41,7 +41,6 @@ namespace SMS.API.Controllers
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
     new(ClaimTypes.Role, user.Role.ToString()),
-    new(ClaimTypes.Name, user.FullName),
 };
 
                 // IMPORTANT: only for SchoolAdmin
@@ -67,7 +66,8 @@ namespace SMS.API.Controllers
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    role = user.Role.ToString()
+                    role = user.Role.ToString(),
+                    name = user.FullName.ToString()
                 });// existing login logic
             }
             catch (Exception ex)
