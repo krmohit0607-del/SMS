@@ -179,6 +179,22 @@ namespace SMS.API.Controllers
             return Ok(students);
         }
 
+        [HttpGet("student/last-roll/{classId}")]
+        public async Task<IActionResult> GetLastRollNumber(int classId)
+        {
+            var lastRoll = await _context.Students
+                .Where(s => s.ClassId == classId)
+                .OrderByDescending(s => s.RollNumber)
+                .Select(s => s.RollNumber)
+                .FirstOrDefaultAsync();
+
+            return Ok(new
+            {
+                lastRollNumber = lastRoll
+            });
+        }
+
+
         [HttpGet("dashboard")]
         public async Task<IActionResult> GetDashboard()
         {
