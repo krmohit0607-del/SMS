@@ -53,6 +53,7 @@ namespace SMS.API.Controllers
                 .Select(x => new
                 {
                     x.Id,
+                    x.Teacher,
                     x.FullName,
                     x.Email,
                     x.IsActive
@@ -139,8 +140,8 @@ namespace SMS.API.Controllers
                 return BadRequest("User not exists");
 
                  
-
-            _context.Users.Remove(teacher);
+            teacher.IsActive = false;
+            //_context.Users.Remove(teacher);
             await _context.SaveChangesAsync();
 
             return Ok("Teacher created successfully");
@@ -167,30 +168,6 @@ namespace SMS.API.Controllers
 
             return Ok(students);
         }
-
-        // 🔹 Create Student
-        //[HttpPost("students")]
-        //public async Task<IActionResult> CreateStudent(CreateStudentDto dto)
-        //{
-        //    var schoolId = int.Parse(User.FindFirst("SchoolId")!.Value);
-
-        //    if (await _context.Users.AnyAsync(x => x.Email == dto.Email))
-        //        return BadRequest("Email already exists");
-
-        //    var student = new User
-        //    {
-        //        FullName = dto.FullName,
-        //        Email = dto.Email,
-        //        PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password),
-        //        Role = UserRole.Student,
-        //        SchoolId = schoolId
-        //    };
-
-        //    _context.Users.Add(student);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok("Student created successfully");
-        //}
 
         [HttpGet("dashboard")]
         public async Task<IActionResult> GetDashboard()

@@ -13,7 +13,7 @@ namespace SMS.API.Models
 
         public int? SchoolId { get; set; }
         public School? School { get; set; }
-
+        public Teacher? Teacher { get; set; }
 
     }
 }
