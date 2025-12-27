@@ -37,9 +37,18 @@ namespace SMS.API.Controllers
         {
             var schoolId = int.Parse(User.FindFirst("SchoolId")!.Value);
 
-            int totalClasses = await _context.Classes.CountAsync(x => x.SchoolId == schoolId && x.IsActive);
+            var Classes = await _context.Classes
+                .Where(x => x.SchoolId == schoolId && x.IsActive)
+                .Select(x => new 
+                {
+                    x.Id,
+                    x.Name,
+                    x.Section,
+                    x.IsActive
+                })
+                .ToListAsync();
 
-            return Ok(totalClasses);
+            return Ok(Classes);
         }
 
         // 🔹 Get Teachers
