@@ -178,6 +178,42 @@ namespace SMS.API.Controllers
 
             return Ok(students);
         }
+        // 🔹 Get Students
+        [HttpPost("students")]
+        public async Task<IActionResult> CreateStudents(CreateStudentDto dto)
+        {
+            var schoolId = int.Parse(User.FindFirst("SchoolId")!.Value);
+
+            if (await _context.Users.AnyAsync(x => x.Email == dto.Email))
+                return BadRequest("Email already exists");
+
+            var student = new Student
+            {
+                FullName = dto.FullName,
+                Email = dto.Email,
+                DateOfBirth = dto.DateOfBirth,
+                RollNumber = dto.RollNumber,
+                ClassId = dto.ClassId,
+                SchoolId = schoolId,
+                IsActive = true
+            };
+
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+
+            var teacher = new Teacher
+            {
+                UserId = user.Id,
+                Subject = dto.Subject,
+                SchoolId = schoolId,
+                IsActive = true
+            };
+
+            _context.Teachers.Add(teacher);
+            await _context.SaveChangesAsync();
+
+            return Ok("Student created successfully");
+        }
 
         [HttpGet("student/last-roll/{classId}")]
         public async Task<IActionResult> GetLastRollNumber(int classId)
