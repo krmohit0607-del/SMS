@@ -41,6 +41,7 @@ namespace SMS.API.Controllers
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
     new(ClaimTypes.Role, user.Role.ToString()),
+    new(ClaimTypes.Name, user.FullName),
 };
 
                 // IMPORTANT: only for SchoolAdmin
