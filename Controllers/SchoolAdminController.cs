@@ -49,6 +49,7 @@ namespace SMS.API.Controllers
             var schoolId = int.Parse(User.FindFirst("SchoolId")!.Value);
 
             var teachers = await _context.Users
+                  .Include(x => x.Teacher)
                 .Where(x => x.Role == UserRole.Teacher && x.SchoolId == schoolId)
                 .Select(x => new
                 {
