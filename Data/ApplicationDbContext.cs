@@ -58,11 +58,17 @@ namespace SMS.API.Data
                 .HasForeignKey(t => t.SchoolId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-    //        modelBuilder.Entity<Student>()
-    //.HasOne(s => s.User)
-    //.WithMany()
-    //.HasForeignKey(s => s.UserId)
-    //.OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<User>()
+    .HasOne(u => u.Teacher)
+    .WithOne(t => t.User)
+    .HasForeignKey<Teacher>(t => t.UserId)
+    .OnDelete(DeleteBehavior.Cascade);
+
+            //        modelBuilder.Entity<Student>()
+            //.HasOne(s => s.User)
+            //.WithMany()
+            //.HasForeignKey(s => s.UserId)
+            //.OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.School)
