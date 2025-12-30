@@ -1,6 +1,6 @@
 ﻿namespace SMS.API.DTOs
 {
-    public class MarkAttendanceDto
+    public class MarkAttendanceDto1
     {
         public int StudentId { get; set; }
         public int ClassId { get; set; }

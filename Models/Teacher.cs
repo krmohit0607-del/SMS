@@ -12,5 +12,6 @@
         public School School { get; set; } = null!;
 
         public bool IsActive { get; set; } = true;
+        public ICollection<TeacherClass> TeacherClasses { get; set; } = new List<TeacherClass>();
     }
 }

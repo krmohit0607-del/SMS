@@ -158,6 +158,7 @@ namespace SMS.API.Data
         public DbSet<Fee> Fees { get; set; }
         public DbSet<Timetable> Timetables { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<TeacherClass> TeacherClasses { get; set; } = null!;
 
         //public DbSet<Teacher> Teachers => Set<Teacher>();
 
