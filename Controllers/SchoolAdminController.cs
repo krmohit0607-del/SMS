@@ -201,17 +201,6 @@ namespace SMS.API.Controllers
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
-            var teacher = new Teacher
-            {
-                UserId = user.Id,
-                Subject = dto.Subject,
-                SchoolId = schoolId,
-                IsActive = true
-            };
-
-            _context.Teachers.Add(teacher);
-            await _context.SaveChangesAsync();
-
             return Ok("Student created successfully");
         }
 

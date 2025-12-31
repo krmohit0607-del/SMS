@@ -116,12 +116,12 @@ namespace SMS.API.Controllers
         [HttpGet("classes")]
         public async Task<IActionResult> GetMyClasses()
         {
-            var classes = await _context.Subjects
+            var classes = await _context.Classes
                 .Where(s => s.TeacherId == TeacherId)
                 .Select(s => new
                 {
-                    s.Class.Id,
-                    s.Class.Name
+                    s.Id,
+                    s.Name
                 })
                 .Distinct()
                 .ToListAsync();

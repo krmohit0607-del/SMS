@@ -8,6 +8,7 @@
         public string Name { get; set; } = null!;   // e.g. Class 1, Class 2
         public string Section { get; set; } = null!; // A, B, C
         public bool IsActive { get; set; } = true;
+        public int TeacherId { get; set; }
 
         public School School { get; set; }
         public ICollection<Subject> Subjects { get; set; }
