@@ -121,7 +121,8 @@ namespace SMS.API.Controllers
                 .Select(s => new
                 {
                     s.Id,
-                    s.Name
+                    s.Name,
+                    s.Section
                 })
                 .Distinct()
                 .ToListAsync();
